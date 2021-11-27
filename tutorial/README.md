@@ -1,0 +1,1 @@
+[fastAPIのチュートリアル](https://fastapi.tiangolo.com/ja/tutorial/)をやった記録
