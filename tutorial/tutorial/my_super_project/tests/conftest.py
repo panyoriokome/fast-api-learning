@@ -41,6 +41,8 @@ def test_db():
             assert e is not None
             db.rollback()
 
+    # TestingSessionクラスをテスト内で使用するため
+    # リクエストハンドラ内でセッションインスタンスを取得するための処理を上書き
     app.dependency_overrides[get_db] = get_db_for_testing
 
     # テストケース実行
