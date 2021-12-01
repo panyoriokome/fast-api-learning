@@ -1,8 +1,10 @@
+from tutorial.tutorial.my_super_project.tests_with_factory.factories import UserFactory
 from fastapi.testclient import TestClient
 import pytest
 from sql_app.main import app
 from sql_app.models import User, Item
 from sql_app import schemas
+from tests_with_factory.factories import ItemFactory, UserFactory
 
 client = TestClient(app)
 
@@ -35,17 +37,20 @@ def test_read_users(test_db):
 def test_read_users_with_items(test_db):
     """userとuserに紐づくアイテムが返されることを確認する"""
     # テスト用のデータを用意
-    user1 = User(email="user1@example.com", hashed_password="unsecurepass")
-    user2 = User(email="user2@example.com", hashed_password="unsecurepass")
-    test_db.add_all([user1, user2])
-    test_db.flush()
-    test_db.commit()
+    # user1 = User(email="user1@example.com", hashed_password="unsecurepass")
+    # user2 = User(email="user2@example.com", hashed_password="unsecurepass")
+    # test_db.add_all([user1, user2])
+    # test_db.flush()
+    # test_db.commit()
 
-    item1 = Item(title="テストアイテム", description="テストのためのアイテム", owner_id=user1.id)
-    item2 = Item(title="テストアイテム2", description="テストのためのアイテム2", owner_id=user2.id)
-    test_db.add_all([item1, item2])
-    test_db.flush()
-    test_db.commit()
+    UserFactory()
+    ItemFactory()
+
+    # item1 = Item(title="テストアイテム", description="テストのためのアイテム", owner_id=user1.id)
+    # item2 = Item(title="テストアイテム2", description="テストのためのアイテム2", owner_id=user2.id)
+    # test_db.add_all([item1, item2])
+    # test_db.flush()
+    # test_db.commit()
 
     # テスト対象の処理を実行
     response = client.get("/users/")
@@ -56,13 +61,13 @@ def test_read_users_with_items(test_db):
             "email": "user1@example.com",
             "id": 1,
             "is_active": True,
-            "items": [{"title": "テストアイテム", "description": "テストのためのアイテム", "id": 1, "owner_id": 1}],
+            "items": [{"title": "テストアイテム0", "description": "テストのためのアイテム", "id": 1, "owner_id": 1}],
         },
         {
             "email": "user2@example.com",
             "id": 2,
             "is_active": True,
-            "items": [{"title": "テストアイテム2", "description": "テストのためのアイテム2", "id": 2, "owner_id": 2}],
+            "items": [{"title": "テストアイテム1", "description": "テストのためのアイテム2", "id": 2, "owner_id": 2}],
         },
     ]
 
